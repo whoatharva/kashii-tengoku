@@ -1,5 +1,7 @@
 # Kashii Tengoku 樫天国
 
+> **Note:** This project was developed using Test-Driven Development (TDD). All development and commits were maintained locally in a clean, incremental history, and the codebase was pushed to GitHub only after the project was complete and well-structured.
+
 A modern, web-based inventory management system for a Japanese sweet shop, built with Flask. Kashii Tengoku (樫天国) lets you easily add, delete, purchase, restock, search, and sort sweets in your shop. The project is designed for learning, simplicity, and test-driven development (TDD).
 
 ---
