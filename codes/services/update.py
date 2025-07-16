@@ -16,6 +16,6 @@ def restock_sweet(sweet_id):
     sweet = db.session.get(Sweet, sweet_id)
     if not sweet:
         return False, 'Sweet not found.'
-    sweet.quantity += 1
+    sweet.quantity += 10
     db.session.commit()
-    return True, f'Restocked 1 {sweet.name}!' 
+    return True, f'Restocked 10 {sweet.name}!'

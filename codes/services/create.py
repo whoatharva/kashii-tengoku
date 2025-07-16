@@ -28,6 +28,9 @@ def insert_random_sweet():
     if not available:
         return False, 'All sample sweets are already in the shop!'
     sweet = random.choice(available)
-    db.session.add(Sweet(name=sweet["name"], price=sweet["price"], quantity=10))
+    random_price = round(random.uniform(200, 600), 2)
+    random_quantity = random.randint(5, 30)
+    db.session.add(Sweet(name=sweet["name"], price=random_price, quantity=random_quantity))
     db.session.commit()
-    return True, f'Added {sweet["name"]} to the shop!' 
+    return True, f'Added {sweet["name"]} to the shop with price {random_price} and quantity {random_quantity}!'
+ 
