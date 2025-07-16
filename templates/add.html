@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Add Sweet - Kashii Tengoku</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+</head>
+<body>
+    <nav class="navbar-manga navbar-manga-full">
+        <div class="mast-banner w-100">
+            <span class="manga-headline">
+                Kashii Tengoku
+                <span class="kanji-header ms-3">樫天国</span>
+            </span>
+        </div>
+    </nav>
+    <main class="main-manga-app d-flex flex-column align-items-center justify-content-start">
+        <div class="manga-card add-sweet-card">
+            <div class="manga-headline text-center mb-2" style="font-size:1.5rem;">Add a New Sweet</div>
+            <div class="text-center text-secondary mb-3" style="font-size:1.08rem;">Fill out the details below to add a new sweet to the shop!</div>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div id="toast-container" class="position-relative mb-3">
+                {% for category, message in messages %}
+                  <div class="speech-bubble">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+            <form method="post" class="form-manga">
+                <div class="mb-3">
+                    <label for="name" class="form-label">🍡 Sweet Name</label>
+                    <input type="text" class="form-control form-control-manga" id="name" name="name" required placeholder="e.g. Dango (団子)">
+                </div>
+                <div class="mb-3">
+                    <label for="price" class="form-label">💴 Price</label>
+                    <input type="number" class="form-control form-control-manga" id="price" name="price" step="0.01" required placeholder="e.g. 300">
+                </div>
+                <div class="mb-3">
+                    <label for="quantity" class="form-label">🍬 Quantity</label>
+                    <input type="number" class="form-control form-control-manga" id="quantity" name="quantity" required placeholder="e.g. 10">
+                </div>
+                <div class="d-flex flex-column flex-md-row gap-2 justify-content-between mt-3">
+                    <button type="submit" class="btn btn-manga btn-manga-primary flex-grow-1">Add Sweet</button>
+                    <a href="{{ url_for('read_routes.index') }}" class="btn btn-manga btn-manga-secondary flex-grow-1">Back</a>
+                </div>
+            </form>
+        </div>
+    </main>
+    <footer class="footer-manga-app text-center mt-5 mb-3">
+        <small>&copy; {{ 2025 }} Kashii Tengoku Café. All rights reserved.</small>
+    </footer>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+</body>
+</html> 
