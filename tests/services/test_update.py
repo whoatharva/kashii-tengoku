@@ -7,6 +7,8 @@ from app import app
 from codes.models import db, Sweet
 from codes.services import purchase_sweet, restock_sweet, SAMPLE_SWEETS
 
+
+#UPDATE TESTS
 @pytest.fixture(autouse=True)
 def setup_db():
     app.config['TESTING'] = True

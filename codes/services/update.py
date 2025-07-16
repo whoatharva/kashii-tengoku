@@ -1,5 +1,7 @@
 from codes.models import db, Sweet
 
+#  update.py
+
 def purchase_sweet(sweet_id):
     sweet = db.session.get(Sweet, sweet_id)
     if not sweet:
