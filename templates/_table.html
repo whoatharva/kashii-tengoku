@@ -1,0 +1,45 @@
+{% for sweet in sweets %}
+    <tr>
+        <td style="width:38px;text-align:center;">
+            {% if 'dango' in sweet.name|lower %}
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f361.png" alt="dango" style="width:28px;">
+            {% elif 'castella' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075977.png" alt="castella" style="width:28px;">
+            {% elif 'mochi' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075976.png" alt="mochi" style="width:28px;">
+            {% elif 'daifuku' in sweet.name|lower or 'strawberry' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075978.png" alt="daifuku" style="width:28px;">
+            {% elif 'dorayaki' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075979.png" alt="dorayaki" style="width:28px;">
+            {% elif 'taiyaki' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075980.png" alt="taiyaki" style="width:28px;">
+            {% elif 'kakigōri' in sweet.name|lower or 'kakigori' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075981.png" alt="kakigori" style="width:28px;">
+            {% elif 'yokan' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075982.png" alt="yokan" style="width:28px;">
+            {% elif 'purin' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075983.png" alt="purin" style="width:28px;">
+            {% elif 'manju' in sweet.name|lower %}
+                <img src="https://cdn-icons-png.flaticon.com/512/3075/3075984.png" alt="manju" style="width:28px;">
+            {% else %}
+                <img src="https://cdn.jsdelivr.net/gh/twitter/twemoji@14.0.2/assets/72x72/1f370.png" alt="sweet" style="width:28px;">
+            {% endif %}
+        </td>
+        <td>{{ sweet.name }}</td>
+        <td>¥{{ '%.2f'|format(sweet.price) }}</td>
+        <td>{{ sweet.quantity }}</td>
+        <td>
+            <div class="btn-manga-group">
+                <form method="post" action="{{ url_for('update_routes.purchase_sweet', sweet_id=sweet.id) }}" class="d-inline">
+                    <button type="submit" class="action-btn" title="Purchase">💰</button>
+                </form>
+                <form method="post" action="{{ url_for('update_routes.restock_sweet', sweet_id=sweet.id) }}" class="d-inline">
+                    <button type="submit" class="action-btn" title="Restock">🔄</button>
+                </form>
+                <form method="post" action="{{ url_for('delete_routes.delete_sweet', sweet_id=sweet.id) }}" class="d-inline">
+                    <button type="submit" class="action-btn" title="Delete">✖</button>
+                </form>
+            </div>
+        </td>
+    </tr>
+{% endfor %} 

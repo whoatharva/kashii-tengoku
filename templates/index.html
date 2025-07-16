@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Kashii Tengoku </title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}">
+    <link rel="icon" type="image/png" href="{{ url_for('static', filename='favicon.png') }}">
+</head>
+<body>
+    <nav class="navbar-manga navbar-manga-full">
+        <div class="mast-banner w-100">
+            <span class="manga-headline">
+                Kashii Tengoku
+                <span class="kanji-header ms-3">樫天国</span>
+            </span>
+        </div>
+    </nav>
+    <main class="container">
+        <form class="row g-2 align-items-center form-manga mb-3 flex-wrap" method="get" action="{{ url_for('read_routes.index') }}" id="searchSortForm" autocomplete="off">
+            <div class="col-md-5 col-12 mb-2 mb-md-0">
+                <input type="text" class="form-control form-control-manga" name="q" placeholder="Search sweets..." value="{{ query }}" id="searchInput" autocomplete="off">
+            </div>
+            <div class="col-md-3 col-8 mb-2 mb-md-0">
+                <select class="form-select form-select-manga" name="sort" id="sortSelect">
+                    <option value="name" {% if sort == 'name' %}selected{% endif %}>Name (A-Z)</option>
+                    <option value="quantity" {% if sort == 'quantity' %}selected{% endif %}>Quantity (Low to High)</option>
+                    <option value="price" {% if sort == 'price' %}selected{% endif %}>Price (Low to High)</option>
+                </select>
+            </div>
+            <div class="col-md-4 col-12 d-flex gap-2 justify-content-md-end justify-content-center mt-2 mt-md-0">
+                <a href="{{ url_for('create_routes.add_sweet') }}" class="btn btn-manga btn-manga-primary">
+                    <span style="display:inline-flex;align-items:center;gap:0.5em;">
+                        <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><circle cx="12" cy="12" r="12" fill="#fff" stroke="#b71c1c" stroke-width="2.5"/><path d="M12 7v10M7 12h10" stroke="#b71c1c" stroke-width="2.5" stroke-linecap="round"/></svg>
+                        Add Sweet
+                    </span>
+                </a>
+                <form method="post" action="{{ url_for('create_routes.insert_random_sweet') }}" style="display:inline;">
+                    <button type="submit" class="btn btn-manga btn-manga-secondary">
+                        <span style="display:inline-flex;align-items:center;gap:0.5em;">
+                            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="vertical-align:middle;"><rect x="2.5" y="2.5" width="19" height="19" rx="4.5" fill="#fff" stroke="#181818" stroke-width="2.5"/><circle cx="7.5" cy="7.5" r="1.5" fill="#b71c1c"/><circle cx="16.5" cy="7.5" r="1.5" fill="#b71c1c"/><circle cx="7.5" cy="16.5" r="1.5" fill="#b71c1c"/><circle cx="16.5" cy="16.5" r="1.5" fill="#b71c1c"/><circle cx="12" cy="12" r="1.5" fill="#b71c1c"/></svg>
+                            Insert Random Sweet
+                        </span>
+                    </button>
+                </form>
+            </div>
+        </form>
+            {% with messages = get_flashed_messages(with_categories=true) %}
+              {% if messages %}
+                <div id="toast-container" class="position-relative mb-3">
+                {% for category, message in messages %}
+                  <div class="speech-bubble">{{ message }}</div>
+                {% endfor %}
+                </div>
+              {% endif %}
+            {% endwith %}
+            <div class="mb-2 text-muted small">
+                <b>Legend:</b>
+                <span class="ms-2"><span title="Purchase">💰</span> Purchase</span>
+                <span class="ms-2"><span title="Restock">🔄</span> Restock</span>
+                <span class="ms-2"><span title="Delete">✖</span> Delete</span>
+            </div>
+            <div class="table-responsive">
+                <table class="table table-striped table-hover table-manga align-middle mb-0">
+                    <thead>
+                        <tr>
+                            <th></th>
+                            <th>Name</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Actions</th>
+                        </tr>
+                    </thead>
+                    <tbody id="sweetsTableBody">
+                        {% include '_table.html' %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </main>
+    <img src="https://pngimg.com/d/ship_PNG51341.png" class="footer-ship" alt="Going Merry">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
+    <script>
+        // AJAX search/sort with fade transition
+        const searchInput = document.getElementById('searchInput');
+        const sortSelect = document.getElementById('sortSelect');
+        const tableBody = document.getElementById('sweetsTableBody');
+        let searchTimeout;
+        function fetchTable() {
+            const q = searchInput.value;
+            const sort = sortSelect.value;
+            const action = q ? 'search' : 'sort';
+            const params = new URLSearchParams({q, sort, action});
+            tableBody.style.opacity = 0.3;
+            fetch(`/search?${params.toString()}`)
+                .then(r => r.text())
+                .then(html => {
+                    setTimeout(() => {
+                        tableBody.innerHTML = html;
+                        tableBody.style.opacity = 1;
+                        attachTableActionHandlers();
+                    }, 150);
+                });
+        }
+        searchInput.addEventListener('input', function() {
+            clearTimeout(searchTimeout);
+            searchTimeout = setTimeout(fetchTable, 400);
+        });
+        sortSelect.addEventListener('change', fetchTable);
+
+        // AJAX for purchase, restock, delete
+        function attachTableActionHandlers() {
+            tableBody.querySelectorAll('form').forEach(form => {
+                form.addEventListener('submit', function(e) {
+                    e.preventDefault();
+                    const formData = new FormData(form);
+                    const action = form.action;
+                    fetch(action, {
+                        method: 'POST',
+                        body: formData
+                    })
+                    .then(r => r.ok ? fetchTable() : null);
+                });
+            });
+        }
+        // Initial attach
+        attachTableActionHandlers();
+    </script>
+</body>
+</html> 
