@@ -2,16 +2,16 @@ from codes.models import db, Sweet
 import random
 
 SAMPLE_SWEETS = [
-    {"name": "Dango ( 6e3 50)", "price": 300},
-    {"name": "Castella ( 30ab 30b9 30c6 30e9)", "price": 400},
-    {"name": "Matcha Mochi ( 62b9 836 905)", "price": 350},
-    {"name": "Ichigo Daifuku ( 304 306 305 392 798f)", "price": 450},
-    {"name": "Dorayaki ( 306 389 713c 304)", "price": 320},
-    {"name": "Taiyaki ( 305 304 713c 304)", "price": 380},
-    {"name": "Kakig 4dri ( 304 304 6c37)", "price": 250},
-    {"name": "Yokan ( 7f8a 7fb9)", "price": 300},
-    {"name": "Purin ( 30d7 30ea 30f3)", "price": 280},
-    {"name": "Manju ( 945 982d)", "price": 270},
+    {"name": "Dango (団子)", "price": 300},
+    {"name": "Castella (カステラ)", "price": 400},
+    {"name": "Matcha Mochi (抹茶餅)", "price": 350},
+    {"name": "Ichigo Daifuku (いちご大福)", "price": 450},
+    {"name": "Dorayaki (どら焼き)", "price": 320},
+    {"name": "Taiyaki (たい焼き)", "price": 380},
+    {"name": "Kakigōri (かき氷)", "price": 250},
+    {"name": "Yokan (羊羹)", "price": 300},
+    {"name": "Purin (プリン)", "price": 280},
+    {"name": "Manju (饅頭)", "price": 270},
 ]
 
 def add_sweet(name, price, quantity):
