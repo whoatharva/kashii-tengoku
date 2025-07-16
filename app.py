@@ -1,6 +1,6 @@
 from flask import Flask
 from codes.models import db, Sweet
-from codes.routes import create_routes, read_routes
+from codes.routes import create_routes, read_routes, update_routes
 
 app = Flask(__name__)
 app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///sweets.db'
@@ -10,6 +10,7 @@ app.config['SECRET_KEY'] = 'supersecretkey'
 db.init_app(app)
 app.register_blueprint(create_routes)
 app.register_blueprint(read_routes)
+app.register_blueprint(update_routes)
 
 if __name__ == '__main__':
     with app.app_context():
