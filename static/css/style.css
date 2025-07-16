@@ -685,3 +685,47 @@ th:last-child, td:last-child {
   padding-left: 0;
   padding-right: 0;
 } 
+
+.flash-success {
+  background: #e6ffe6;
+  border-color: #2ecc40;
+  color: #218838;
+  box-shadow: 0 2px 12px #2ecc4040;
+}
+.flash-info {
+  background: #e6f0ff;
+  border-color: #0074d9;
+  color: #005fa3;
+  box-shadow: 0 2px 12px #0074d940;
+}
+.flash-danger {
+  background: #ffe6e6;
+  border-color: #e63946;
+  color: #b71c1c;
+  box-shadow: 0 2px 12px #e6394640;
+}
+.fade-in {
+  animation: fadeIn 0.7s cubic-bezier(0.4,0,0.2,1);
+}
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(-18px) scale(0.98); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+.speech-bubble {
+  min-width: 220px;
+  max-width: 90vw;
+  text-align: center;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 1.13rem;
+  font-weight: 600;
+  letter-spacing: 0.01em;
+  padding: 1.2em 2em 1.2em 2em;
+}
+@media (max-width: 600px) {
+  .speech-bubble {
+    min-width: 0;
+    font-size: 1rem;
+    padding: 0.7em 0.7em 1.1em 0.7em;
+  }
+} 

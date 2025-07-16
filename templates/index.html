@@ -48,9 +48,9 @@
         </form>
             {% with messages = get_flashed_messages(with_categories=true) %}
               {% if messages %}
-                <div id="toast-container" class="position-relative mb-3">
+                <div id="toast-container" class="d-flex justify-content-center w-100 mb-3" style="z-index:1050;">
                 {% for category, message in messages %}
-                  <div class="speech-bubble">{{ message }}</div>
+                  <div class="speech-bubble flash-{{ category }} fade-in">{{ message }}</div>
                 {% endfor %}
                 </div>
               {% endif %}
